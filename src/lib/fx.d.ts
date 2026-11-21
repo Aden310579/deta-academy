@@ -1,0 +1,10 @@
+export function mountChart(root: HTMLElement): () => void;
+export function mountTicker(root: HTMLElement): () => void;
+export function mountDrill(root: HTMLElement, opts?: { modHref?: (id: string) => string }): () => void;
+export function genScenario(seed: number): any;
+export function mountPalette(items: any[], go: (h: string) => void): { open: () => void; close: () => void; destroy: () => void };
+export function mountSpotlight(): () => void;
+export function mountReadBar(bar: HTMLElement): () => void;
+export function genBars(seed: number, n: number, start: number, vol: number, drift?: number): number[][];
+export function ema(bars: number[][], p: number): number[];
+export function rng(seed: number): () => number;
