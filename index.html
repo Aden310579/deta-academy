@@ -5,7 +5,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Deta Academy: sekolah trading dari nol sampai bisa. Kelas Pemula, Menengah, dan Mahir dengan kuis, arena latihan, dan sertifikat.">
+<meta name="description" content="Deta Academy: sekolah trading dari nol sampai bisa. Level Pemula, Menengah, dan Mahir yang dibuka berurutan, dengan kuis, arena latihan, dan sertifikat.">
 <link rel="icon" type="image/png" href="brand/icon-64.png">
 <link rel="apple-touch-icon" href="brand/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -305,7 +305,7 @@ kbd{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;b
 .prose .fig:hover{transform:translateY(-2px)}
 @media (max-width:880px){.nav .kbd-btn kbd{display:none}}
 @media (max-width:640px){.bar .wrap{gap:8px}.nav{gap:2px}.nav a,.nav button{padding:8px}.nav .meter{width:36px}.logo{font-size:17px}}
-/* ===== kelas: Pemula / Menengah / Mahir ===== */
+/* ===== level: Pemula / Menengah / Mahir ===== */
 .badge{display:block;flex:none;filter:drop-shadow(0 8px 18px rgba(0,0,0,.25))}
 .badge.off{filter:grayscale(1);opacity:.45}
 .tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:8px}
@@ -398,6 +398,12 @@ kbd{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;b
 .cert.locked .cert-in{filter:grayscale(1) blur(3px);opacity:.35}
 .cert-lock{inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,calc(100% - 40px));padding:28px 24px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 24px 60px -24px rgba(0,0,0,.35)}
 .cert-lock .btn{margin-top:8px}
+.mod.locked{opacity:.6}
+.mod.locked:hover{transform:none}
+.lock-note b{display:flex;align-items:center;gap:6px}
+.locked-view{max-width:620px;margin:48px auto 72px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+.locked-view .note{text-align:left}
+.locked-view .cta{justify-content:center}
 .q label{align-items:center;transition:border-color .15s,background .15s}
 .q label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
 .q input{margin:0;width:18px;height:18px;flex:none}
@@ -481,9 +487,9 @@ const table=(head,rows)=>`<div class="tbl"><table><thead><tr>${head.map(h=>`<th>
 
 /* ---------- curriculum ---------- */
 const LEVELS=[
-  {n:'Level 1',name:'Fondasi',slug:'pemula',school:'Kelas Pemula',c1:'#22B07F',c2:'#0C6A50',tagline:'Dari nol sampai bisa membaca chart sendiri.',outcomes:['Paham istilah pip, lot, spread, leverage, dan margin','Membaca timeframe dan struktur tren naik, turun, sideways','Mengenali pola candlestick yang paling penting'],desc:'Paham pasar, istilah, dan cara membaca grafik. Mulai dari sini kalau belum pernah trading sama sekali.',mods:['m1','m2','m3']},
-  {n:'Level 2',name:'Analisa',slug:'menengah',school:'Kelas Menengah',c1:'#5B7CFF',c2:'#2B3C9E',tagline:'Membaca arah harga dan menemukan area penting.',outcomes:['Menggambar zona support dan resistance yang kuat','Mengenali pola chart dan memakai indikator dengan benar','Membaca dampak berita ekonomi ke harga'],desc:'Belajar membaca arah harga: area penting, pola, indikator, dan pengaruh berita.',mods:['m4','m5','m6','m7']},
-  {n:'Level 3',name:'Eksekusi',slug:'mahir',school:'Kelas Mahir',c1:'#F2C14E',c2:'#A86F08',tagline:'Eksekusi seperti trader: terukur, disiplin, punya rencana.',outcomes:['Menghitung lot dan risiko untuk setiap posisi','Mengendalikan emosi dan menulis jurnal trading','Punya strategi H4–M15 dan trading plan tertulis'],desc:'Bagian yang menentukan bertahan atau tidak: risiko, mental, dan rencana trading sendiri.',mods:['m8','m9','m10']}
+  {n:'Level 1',name:'Fondasi',slug:'pemula',school:'Level Pemula',c1:'#22B07F',c2:'#0C6A50',tagline:'Dari nol sampai bisa membaca chart sendiri.',outcomes:['Paham istilah pip, lot, spread, leverage, dan margin','Membaca timeframe dan struktur tren naik, turun, sideways','Mengenali pola candlestick yang paling penting'],desc:'Paham pasar, istilah, dan cara membaca grafik. Mulai dari sini kalau belum pernah trading sama sekali.',mods:['m1','m2','m3']},
+  {n:'Level 2',name:'Analisa',slug:'menengah',school:'Level Menengah',c1:'#5B7CFF',c2:'#2B3C9E',tagline:'Membaca arah harga dan menemukan area penting.',outcomes:['Menggambar zona support dan resistance yang kuat','Mengenali pola chart dan memakai indikator dengan benar','Membaca dampak berita ekonomi ke harga'],desc:'Belajar membaca arah harga: area penting, pola, indikator, dan pengaruh berita.',mods:['m4','m5','m6','m7']},
+  {n:'Level 3',name:'Eksekusi',slug:'mahir',school:'Level Mahir',c1:'#F2C14E',c2:'#A86F08',tagline:'Eksekusi seperti trader: terukur, disiplin, punya rencana.',outcomes:['Menghitung lot dan risiko untuk setiap posisi','Mengendalikan emosi dan menulis jurnal trading','Punya strategi H4–M15 dan trading plan tertulis'],desc:'Bagian yang menentukan bertahan atau tidak: risiko, mental, dan rencana trading sendiri.',mods:['m8','m9','m10']}
 ];
 
 const MODS={
@@ -818,7 +824,7 @@ function refreshNav(){const p=overall();document.getElementById('navMeter').styl
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),1800);}
 
 /* ---------- views ---------- */
-/* ---------- kelas (level) ---------- */
+/* ---------- level ---------- */
 const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function badge(L,size,earned){
   const i=LEVELS.indexOf(L)+1;
@@ -834,6 +840,16 @@ function levelStat(L){
   return {done,total:L.mods.length,pct,complete,remaining:L.mods.length-done};
 }
 function levelNext(L){for(const id of L.mods){const m=MODS[id];for(let i=0;i<m.lessons.length;i++)if(!P.done[lid(id,i)])return '#'+lid(id,i);if(!(P.quiz[id]>=2))return '#'+id+'-kuis';}return '#'+L.mods[0];}
+function levelPrev(L){return LEVELS[LEVELS.indexOf(L)-1]||null;}
+function levelOpen(L){const pv=levelPrev(L);return !pv||levelStat(pv).complete;}
+const levelOfMod=id=>LEVELS.find(l=>l.mods.includes(id));
+const lockIcon='<svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true" style="vertical-align:-2px"><rect x="4" y="9" width="12" height="9" rx="2" fill="currentColor"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+function lockNote(L){const pv=levelPrev(L),ps=levelStat(pv);return `<div class="note warn lock-note"><b>${lockIcon} Selesaikan ${pv.school} dulu</b>Level ini terbuka setelah semua modul dan kuis di ${pv.school} selesai. Tinggal ${ps.remaining} modul lagi. <a href="${levelNext(pv)}">Lanjutkan ${pv.school} →</a></div>`;}
+function viewLocked(L){
+  app.innerHTML=`<div class="wrap"><div class="crumb"><a href="#beranda">Beranda</a><span>/</span><a href="#${L.slug}">${L.school}</a><span>/</span><span>Terkunci</span></div>
+    <section class="locked-view"><div class="lvl-badge">${badge(L,140,false)}</div><h1>${L.school} masih terkunci</h1>${lockNote(L)}<div class="cta"><a class="btn primary" href="${levelNext(levelPrev(L))}">Lanjutkan ${levelPrev(L).school} →</a><a class="btn" href="#kurikulum">Lihat kurikulum</a></div></section></div>`;
+  window.scrollTo(0,0);
+}
 function certNo(L){const s=(P.grad&&P.grad[L.slug]||'')+L.slug;let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return 'DA-'+L.slug.slice(0,3).toUpperCase()+'-'+h.toString(36).toUpperCase().slice(0,6);}
 function certHTML(L){
   const s=levelStat(L), name=P.name||'', d=s.complete?new Date(P.grad[L.slug]).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}):'—';
@@ -849,19 +865,19 @@ function certHTML(L){
         <p class="cert-txt">telah menyelesaikan seluruh modul dan kuis <b>${L.school}</b> (${L.n} · ${L.name}) di Deta Academy.</p>
         <div class="cert-foot"><div><b>${d}</b><span>Tanggal lulus</span></div><div><b>${L.mods.length} modul · ${lessons} pelajaran</b><span>Materi yang ditempuh</span></div><div class="sig"><b>Tim Deta Academy</b><span>Pengajar</span></div></div>
       </div>
-      ${s.complete?'':`<div class="cert-lock"><b>Selesaikan ${s.remaining} modul lagi</b><span>Sertifikat terbuka setelah semua pelajaran dan kuis di ${L.school} selesai.</span><a class="btn primary" href="${levelNext(L)}">Lanjutkan kelas →</a></div>`}
+      ${s.complete?'':`<div class="cert-lock"><b>Selesaikan ${s.remaining} modul lagi</b><span>Sertifikat terbuka setelah semua pelajaran dan kuis di ${L.school} selesai.</span><a class="btn primary" href="${levelNext(L)}">Lanjutkan level →</a></div>`}
     </div>
     ${s.complete?`<div class="cert-form"><label for="certName">Nama di sertifikat<input id="certName" type="text" maxlength="40" placeholder="Tulis nama lengkapmu" value="${esc(name)}"></label><span class="muted">Tersimpan otomatis. Ambil screenshot untuk dibagikan.</span></div>`:''}
   </section>`;
 }
 function bindCert(){const i=document.getElementById('certName');if(!i)return;i.addEventListener('input',()=>{P.name=i.value.slice(0,40);save();document.querySelectorAll('#certNameOut').forEach(e=>e.textContent=P.name||'Nama kamu');});}
 function tierCard(L,cur){
-  const s=levelStat(L);
-  return `<a class="tier glass-hover ${cur?'cur':''}" href="#${L.slug}" style="--c1:${L.c1}">${badge(L,56,s.complete)}<div><span class="eyebrow">${L.n}</span><b>${L.school}</b><div class="prog"><i style="width:${s.pct}%;background:${L.c1}"></i></div><small>${s.complete?'Lulus ✓':s.done+'/'+s.total+' modul selesai'}</small></div></a>`;
+  const s=levelStat(L),open=levelOpen(L);
+  return `<a class="tier glass-hover ${cur?'cur':''}" href="#${L.slug}" style="--c1:${L.c1}">${badge(L,56,s.complete)}<div><span class="eyebrow">${L.n}</span><b>${L.school}</b><div class="prog"><i style="width:${s.pct}%;background:${L.c1}"></i></div><small>${s.complete?'Lulus ✓':open?s.done+'/'+s.total+' modul selesai':lockIcon+' Terkunci'}</small></div></a>`;
 }
 function viewLevel(slug){
   const L=LEVELS.find(l=>l.slug===slug), idx=LEVELS.indexOf(L), s=levelStat(L), prev=LEVELS[idx-1];
-  const prevOk=!prev||levelStat(prev).complete;
+  const prevOk=levelOpen(L);
   const mins=L.mods.reduce((a,id)=>a+MODS[id].lessons.reduce((b,l)=>b+l.min,0),0);
   app.innerHTML=`<section class="lvl-hero" style="--c1:${L.c1};--c2:${L.c2}"><div class="wrap">
     <div class="crumb"><a href="#beranda">Beranda</a><span>/</span><a href="#kurikulum">Kurikulum</a><span>/</span><span>${L.school}</span></div>
@@ -871,18 +887,18 @@ function viewLevel(slug){
         <h1>${L.school}</h1>
         <p class="lead">${L.desc}</p>
         <ul class="outcomes">${L.outcomes.map(o=>`<li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="${L.c1}"/><path d="M6 10.5l2.6 2.6L14 7.6" fill="none" stroke="#fff" stroke-width="2"/></svg>${o}</li>`).join('')}</ul>
-        <div class="cta"><a class="btn primary" href="${levelNext(L)}">${s.pct===0?'Mulai kelas':s.complete?'Ulas materi':'Lanjutkan kelas'} →</a><a class="btn" href="#sertifikat-${L.slug}">${s.complete?'Lihat sertifikat':'Lihat sertifikat kelas'}</a></div>
-        <div class="mini-stats"><div><b class="mono">${L.mods.length}</b>modul</div><div><b class="mono">±${Math.round(mins/6)/10} jam</b>waktu baca</div><div><b class="mono">${s.pct}%</b>progres kelas</div></div>
+        <div class="cta">${prevOk?`<a class="btn primary" href="${levelNext(L)}">${s.pct===0?'Mulai level':s.complete?'Ulas materi':'Lanjutkan level'} →</a>`:`<a class="btn primary" href="${levelNext(prev)}">${lockIcon} Selesaikan ${prev.school} dulu →</a>`}<a class="btn" href="#sertifikat-${L.slug}">${s.complete?'Lihat sertifikat':'Lihat sertifikat level'}</a></div>
+        <div class="mini-stats"><div><b class="mono">${L.mods.length}</b>modul</div><div><b class="mono">±${Math.round(mins/6)/10} jam</b>waktu baca</div><div><b class="mono">${s.pct}%</b>progres level</div></div>
       </div>
-      <div class="lvl-badge">${badge(L,200,s.complete)}<span class="chip ${s.complete?'ok':''}">${s.complete?'Lencana diraih':'Lencana menunggu'}</span></div>
+      <div class="lvl-badge">${badge(L,200,s.complete)}<span class="chip ${s.complete?'ok':''}">${s.complete?'Lencana diraih':prevOk?'Lencana menunggu':'Terkunci'}</span></div>
     </div>
   </div></section>
   <div class="wrap">
-    ${prevOk?'':`<div class="note warn" style="margin-top:28px"><b>Saran urutan</b>Kelas ini memakai istilah dari ${prev.school}. Kamu tetap boleh membuka materinya, tapi akan lebih mudah kalau ${prev.school} diselesaikan dulu. <a href="#${prev.slug}">Buka ${prev.school} →</a></div>`}
+    ${prevOk?'':`<div style="margin-top:28px">${lockNote(L)}</div>`}
     <div class="section-head" style="margin-top:40px"><div><div class="eyebrow">Materi</div><h2 style="margin-top:8px">Modul di ${L.school}</h2></div></div>
     <div class="mods">${L.mods.map(modCard).join('')}</div>
     ${certHTML(L)}
-    <div class="section-head"><div><div class="eyebrow">Jalur sekolah</div><h2 style="margin-top:8px">Tiga kelas</h2></div></div>
+    <div class="section-head"><div><div class="eyebrow">Jalur sekolah</div><h2 style="margin-top:8px">Tiga level</h2></div></div>
     <div class="tiers" style="margin-bottom:56px">${LEVELS.map(x=>tierCard(x,x===L)).join('')}</div>
   </div>`;
   bindCert();
@@ -895,6 +911,7 @@ const totalMin=ORDER.reduce((a,id)=>a+MODS[id].lessons.reduce((b,l)=>b+l.min,0),
 
 function modCard(id){
   const m=MODS[id],s=modStat(id);
+  if(!levelOpen(levelOfMod(id)))return `<a class="mod locked" href="#${levelOfMod(id).slug}" aria-label="Modul ${m.n}: ${m.title}, terkunci"><div class="top"><span class="code">MODUL ${String(m.n).padStart(2,'0')}</span><span class="chip">${lockIcon} Terkunci</span></div><h4>${m.title}</h4><p>${m.desc}</p><div class="prog"><i style="width:0%"></i></div><div class="meta"><span>Selesaikan level sebelumnya</span><span>${lockIcon}</span></div></a>`;
   const chip=s.pct===100?'<span class="chip ok">Selesai</span>':s.pct>0?'<span class="chip go">Berjalan</span>':`<span class="chip">${m.lessons.length} pelajaran</span>`;
   return `<a class="mod" href="#${id}"><div class="top"><span class="code">MODUL ${String(m.n).padStart(2,'0')}</span>${chip}</div><h4>${m.title}</h4><p>${m.desc}</p><div class="prog"><i style="width:${s.pct}%"></i></div><div class="meta"><span>${s.d}/${s.n} pelajaran${s.q?' · kuis ✓':''}</span><span>${s.pct}%</span></div></a>`;
 }
@@ -904,7 +921,7 @@ function viewHome(scrollTo){
   app.innerHTML=`
   <section class="hero-band"><div class="wrap hero">
     <div class="hero-copy">
-      <div class="badge-live"><span class="dot"></span>Kelas dibuka · belajar kapan saja</div>
+      <div class="badge-live"><span class="dot"></span>Level dibuka berurutan · belajar kapan saja</div>
       <h1 style="margin-top:16px">Belajar membaca pasar, <em>satu candle</em> demi satu candle.</h1>
       <p class="lead">Sepuluh modul berurutan dari mengenal pip sampai menyusun trading plan sendiri. Chart interaktif, arena latihan, kuis di setiap modul, dan progres yang tersimpan otomatis.</p>
       <div class="cta">
@@ -927,9 +944,9 @@ function viewHome(scrollTo){
       <div><b class="mono">±${Math.round(totalMin/60*10)/10} jam</b><span>total waktu baca</span></div>
       <div><b class="mono">${p}%</b><span>progres kamu</span></div>
     </div>
-    <div class="section-head" id="kurikulum"><div><div class="eyebrow">Kurikulum</div><h2 style="margin-top:8px">Tiga kelas, satu jalur</h2></div><span style="color:var(--muted);font-size:14px;max-width:44ch">Mulai dari Kelas Pemula. Setiap kelas punya lencana dan sertifikat kelulusan sendiri.</span></div>
+    <div class="section-head" id="kurikulum"><div><div class="eyebrow">Kurikulum</div><h2 style="margin-top:8px">Tiga level, satu jalur</h2></div><span style="color:var(--muted);font-size:14px;max-width:44ch">Mulai dari Level Pemula. Level berikutnya terbuka setelah level sebelumnya selesai, dan setiap level punya lencana serta sertifikat kelulusan sendiri.</span></div>
     <div class="tiers">${LEVELS.map(x=>tierCard(x,false)).join('')}</div>
-    ${LEVELS.map(L=>`<div class="level" style="--c1:${L.c1}"><div class="level-tag">${badge(L,64,levelStat(L).complete)}<span class="num">${L.n} · ${L.name}</span><h3>${L.school}</h3><p>${L.tagline}</p><a class="lvl-link" href="#${L.slug}">Masuk kelas →</a></div><div class="mods ${L.mods.length===4?'n4':''}">${L.mods.map(modCard).join('')}</div></div>`).join('')}
+    ${LEVELS.map(L=>`<div class="level" style="--c1:${L.c1}"><div class="level-tag">${badge(L,64,levelStat(L).complete)}<span class="num">${L.n} · ${L.name}</span><h3>${L.school}</h3><p>${L.tagline}</p><a class="lvl-link" href="#${L.slug}">${levelOpen(L)?'Masuk level →':lockIcon+' Terkunci'}</a></div><div class="mods ${L.mods.length===4?'n4':''}">${L.mods.map(modCard).join('')}</div></div>`).join('')}
     <section class="arena glass" id="arena">
       <div class="arena-head"><div><div class="eyebrow">Arena latihan</div><h2>Tebak arah berikutnya</h2><p>Lihat chart, baca trennya, lalu pilih Buy atau Sell. ${12} candle berikutnya akan terbuka. Latih insting membaca struktur tanpa risiko uang.</p></div>
         <div class="arena-stats"><div><span>Benar</span><b data-k="score">0</b></div><div><span>Akurasi</span><b data-k="acc">–</b></div><div><span>Streak</span><b data-k="streak">0</b></div><div><span>Rekor</span><b data-k="best">0</b></div></div></div>
@@ -1407,7 +1424,7 @@ function cleanup(){CLEAN.forEach(f=>{try{f&&f()}catch(e){}});CLEAN=[];}
 mountTicker(document.getElementById('ticker'));
 mountSpotlight();
 mountReadBar(document.getElementById('readbar'));
-const PAL=mountPalette(ORDER.flatMap(id=>{const m=MODS[id];return m.lessons.map((l,i)=>({t:l.t,s:'Modul '+m.n+' · '+m.title,k:l.b.replace(/<[^>]+>/g,' ').slice(0,400),href:'#'+lid(id,i)})).concat([{t:'Kuis Modul '+m.n,s:m.title,href:'#'+id+'-kuis'}]);}).concat([{t:'Arena latihan: tebak arah',s:'Beranda',k:'latihan buy sell game',href:'#arena'}]).concat(LEVELS.map(L=>({t:L.school,s:L.n+' · '+L.name,k:'kelas level sertifikat lencana '+L.slug,href:'#'+L.slug}))),h=>{location.hash=h;});
+const PAL=mountPalette(ORDER.flatMap(id=>{const m=MODS[id];return m.lessons.map((l,i)=>({t:l.t,s:'Modul '+m.n+' · '+m.title,k:l.b.replace(/<[^>]+>/g,' ').slice(0,400),href:'#'+lid(id,i)})).concat([{t:'Kuis Modul '+m.n,s:m.title,href:'#'+id+'-kuis'}]);}).concat([{t:'Arena latihan: tebak arah',s:'Beranda',k:'latihan buy sell game',href:'#arena'}]).concat(LEVELS.map(L=>({t:L.school,s:L.n+' · '+L.name,k:'level kelas sertifikat lencana '+L.slug,href:'#'+L.slug}))),h=>{location.hash=h;});
 document.getElementById('searchBtn').onclick=()=>PAL.open();
 
 /* ---------- router ---------- */
@@ -1416,6 +1433,8 @@ function route(){
   let m;
   if(!h||h==='beranda')return viewHome();
   if(h==='kurikulum'||h==='cara-belajar'||h==='arena')return viewHome(h);
+  const gm=h.match(/^(m\d+)(?:-l\d+|-kuis)?$/);
+  if(gm&&MODS[gm[1]]){const L=levelOfMod(gm[1]);if(!levelOpen(L))return viewLocked(L);}
   if((m=h.match(/^(m\d+)-l(\d+)$/))&&MODS[m[1]]&&MODS[m[1]].lessons[+m[2]-1])return viewLesson(m[1],+m[2]-1);
   if((m=h.match(/^(m\d+)-kuis$/))&&MODS[m[1]])return viewQuiz(m[1]);
   if(LEVELS.some(l=>l.slug===h))return viewLevel(h);
