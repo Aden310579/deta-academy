@@ -385,6 +385,38 @@ kbd{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;b
 @media (max-width:480px){.nav .meter{display:none}.nav .pill{padding:8px 10px}.bar .wrap{gap:6px}}
 @media (max-width:360px){.lg-tag{display:none}}
 
+
+/* polish pass */
+:root{--c1k:100%}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--c1k:60%}}
+:root[data-theme="light"]{--c1k:60%}
+.level-tag .num,.lvl-link,.lvl-eye{color:color-mix(in srgb,var(--c1) var(--c1k),var(--fg))}
+.level-tag{display:flex;flex-direction:column;align-items:flex-start}
+.mods{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.mods.n4{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.facts{margin-top:8px}
+.cert.locked .cert-in{filter:grayscale(1) blur(3px);opacity:.35}
+.cert-lock{inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,calc(100% - 40px));padding:28px 24px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 24px 60px -24px rgba(0,0,0,.35)}
+.cert-lock .btn{margin-top:8px}
+.q label{align-items:center;transition:border-color .15s,background .15s}
+.q label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.q input{margin:0;width:18px;height:18px;flex:none}
+.rail summary{display:none}
+@media (max-width:880px){
+  .rail{padding:0}
+  .rail summary{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;list-style:none;font-family:var(--f-display);font-weight:700;font-size:15px}
+  .rail summary::-webkit-details-marker{display:none}
+  .rail summary::after{content:"▾";color:var(--muted);transition:transform .2s}
+  .rail[open] summary::after{transform:rotate(180deg)}
+  .rail .rt{display:none}
+  .rail .rl{padding:0 8px 10px}
+}
+.rail .rl{display:flex;flex-direction:column;gap:2px}
+@media (max-width:560px){
+  .tbl table{font-size:13px}
+  .tbl th,.tbl td{padding:8px 10px}
+  h1{overflow-wrap:break-word}
+}
 </style>
 
 </head>
@@ -879,7 +911,6 @@ function viewHome(scrollTo){
         <a class="btn primary" href="${nx||'#m10'}">${p===0?'Mulai Modul 1':p===100?'Ulas materi':'Lanjutkan belajar'} →</a>
         <a class="btn" href="#arena">Coba arena latihan</a>
       </div>
-      <div class="mini-stats"><div><b class="mono">${totalLessons}</b>pelajaran</div><div><b class="mono">10</b>kuis modul</div><div><b class="mono">${p}%</b>progres kamu</div></div>
     </div>
     <div class="tape glass" id="heroChart">
       <div class="tape-head"><div class="sym-wrap"><span class="sym">XAUUSD</span><span class="tfl" data-k="tf">M15</span><span class="sim">simulasi</span></div>
@@ -898,7 +929,7 @@ function viewHome(scrollTo){
     </div>
     <div class="section-head" id="kurikulum"><div><div class="eyebrow">Kurikulum</div><h2 style="margin-top:8px">Tiga kelas, satu jalur</h2></div><span style="color:var(--muted);font-size:14px;max-width:44ch">Mulai dari Kelas Pemula. Setiap kelas punya lencana dan sertifikat kelulusan sendiri.</span></div>
     <div class="tiers">${LEVELS.map(x=>tierCard(x,false)).join('')}</div>
-    ${LEVELS.map(L=>`<div class="level" style="--c1:${L.c1}"><div class="level-tag">${badge(L,64,levelStat(L).complete)}<span class="num">${L.n} · ${L.name}</span><h3>${L.school}</h3><p>${L.tagline}</p><a class="lvl-link" href="#${L.slug}">Masuk kelas →</a></div><div class="mods">${L.mods.map(modCard).join('')}</div></div>`).join('')}
+    ${LEVELS.map(L=>`<div class="level" style="--c1:${L.c1}"><div class="level-tag">${badge(L,64,levelStat(L).complete)}<span class="num">${L.n} · ${L.name}</span><h3>${L.school}</h3><p>${L.tagline}</p><a class="lvl-link" href="#${L.slug}">Masuk kelas →</a></div><div class="mods ${L.mods.length===4?'n4':''}">${L.mods.map(modCard).join('')}</div></div>`).join('')}
     <section class="arena glass" id="arena">
       <div class="arena-head"><div><div class="eyebrow">Arena latihan</div><h2>Tebak arah berikutnya</h2><p>Lihat chart, baca trennya, lalu pilih Buy atau Sell. ${12} candle berikutnya akan terbuka. Latih insting membaca struktur tanpa risiko uang.</p></div>
         <div class="arena-stats"><div><span>Benar</span><b data-k="score">0</b></div><div><span>Akurasi</span><b data-k="acc">–</b></div><div><span>Streak</span><b data-k="streak">0</b></div><div><span>Rekor</span><b data-k="best">0</b></div></div></div>
@@ -933,7 +964,8 @@ function viewModule(id){
 
 function rail(id,active){
   const m=MODS[id];
-  return `<aside class="rail" aria-label="Daftar pelajaran"><p class="rt">Modul ${m.n}: ${m.title}</p>${m.lessons.map((l,i)=>{const ok=P.done[lid(id,i)];return `<a class="${active===i?'on':''}" href="#${lid(id,i)}"><span class="d ${ok?'ok':''}">${ok?'✓':''}</span><span>${l.t}</span></a>`;}).join('')}<a class="${active==='q'?'on':''}" href="#${id}-kuis"><span class="d ${P.quiz[id]>=2?'ok':''}">${P.quiz[id]>=2?'✓':''}</span><span>Kuis Modul ${m.n}</span></a></aside>`;
+  const open=matchMedia('(min-width:881px)').matches?' open':'';
+  return `<details class="rail" aria-label="Daftar pelajaran"${open}><summary>Modul ${m.n}: ${m.title}</summary><p class="rt">Modul ${m.n}: ${m.title}</p><div class="rl">${m.lessons.map((l,i)=>{const ok=P.done[lid(id,i)];return `<a class="${active===i?'on':''}" href="#${lid(id,i)}"><span class="d ${ok?'ok':''}">${ok?'✓':''}</span><span>${l.t}</span></a>`;}).join('')}<a class="${active==='q'?'on':''}" href="#${id}-kuis"><span class="d ${P.quiz[id]>=2?'ok':''}">${P.quiz[id]>=2?'✓':''}</span><span>Kuis Modul ${m.n}</span></a></div></details>`;
 }
 
 function viewLesson(id,i){
@@ -1080,7 +1112,7 @@ function paint(cv, bars, o) {
   for (let g = 0; g <= 4; g++) {
     const v = lo + ((hi - lo) * g) / 4, py = Math.round(y(v)) + 0.5;
     ctx.globalAlpha = 0.6; ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(W - axis, py); ctx.stroke(); ctx.globalAlpha = 1;
-    if (axis) ctx.fillText(v.toFixed(o.dp ?? 2), W - axis + 6, py + 4);
+    if (axis && !(o.lastLine && Math.abs(py - y(vis[(o.show !== undefined ? o.show : vis.length) - 1][3])) < 16)) ctx.fillText(v.toFixed(o.dp ?? 2), W - axis + 6, py + 4);
   }
   (o.zones || []).forEach((z) => {
     const col = z.c === "bull" ? "--bull" : z.c === "bear" ? "--bear" : "--accent";
