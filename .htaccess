@@ -1,0 +1,27 @@
+# Deta Academy hanya bisa dibuka lewat link dari detaexpert.com.
+# Pengunjung yang datang dari detaexpert.com (atau subdomainnya) mendapat
+# cookie sesi "deta_ref" supaya bisa pindah halaman dan refresh.
+# Pengunjung lain (ketik alamat langsung, Google, WA, dll.) diarahkan ke
+# halaman utama detaexpert.com.
+# Catatan: ini penyaring sederhana berbasis Referer, bukan pengamanan penuh.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. Datang dari detaexpert.com: izinkan dan beri cookie sesi.
+  RewriteCond %{HTTP_REFERER} ^https?://([a-z0-9-]+\.)*detaexpert\.com(/|:|$) [NC]
+  RewriteRule ^ - [CO=deta_ref:1:academy.detaexpert.com:0:/:secure:httponly:lax,L]
+
+  # 2. Sudah punya cookie dari kunjungan sebelumnya: izinkan.
+  RewriteCond %{HTTP_COOKIE} (^|;\s*)deta_ref=1(;|$)
+  RewriteRule ^ - [L]
+
+  # 3. Selain itu: arahkan ke detaexpert.com.
+  RewriteRule ^ https://detaexpert.com/ [R=302,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Jangan simpan halaman di cache bersama, supaya pengecekan selalu berjalan.
+  Header set Cache-Control "private, no-cache"
+  Header merge Vary "Referer, Cookie"
+</IfModule>
