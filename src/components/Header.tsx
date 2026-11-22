@@ -18,8 +18,7 @@ export default async function Header() {
     <header className="bar">
       <div className="wrap">
         <Link className="logo" href="/" aria-label="Deta Academy, beranda">
-          <span className="logo-img" role="img" aria-label="DETA Expert.com" />
-          <span className="lg-tag">Academy</span>
+          <span className="logo-img" role="img" aria-label="Deta Academy, Level Up Your Trading" />
         </Link>
         <nav className="nav" aria-label="Menu utama">
           <Link href="/#kurikulum" className="hide-sm">Kurikulum</Link>

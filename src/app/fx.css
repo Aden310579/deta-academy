@@ -177,15 +177,13 @@ kbd{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;b
 .why-link{display:inline-block;margin-top:10px;font-weight:700;font-size:14px;color:var(--accent);text-decoration:none}
 .why-link:hover{text-decoration:underline}
 
-/* logo DETA Expert */
-:root{--logo:url("/brand/logo-light.png")}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--logo:url("/brand/logo-dark.png")}}
-:root[data-theme="dark"]{--logo:url("/brand/logo-dark.png")}
+/* logo Deta Academy (gaya sama dengan DETA Expert.com) */
+:root{--logo:url("/brand/logo-academy-light.png")}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--logo:url("/brand/logo-academy-dark.png")}}
+:root[data-theme="dark"]{--logo:url("/brand/logo-academy-dark.png")}
 .logo{gap:10px}
-.logo-img{display:block;height:30px;aspect-ratio:360/56;background:var(--logo) no-repeat left center/contain;flex:none}
-.lg-tag{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:7px;background:var(--accent-soft);color:var(--accent)}
-.cert-brand .logo-img{height:26px}
+.logo-img{display:block;height:34px;aspect-ratio:633/94;background:var(--logo) no-repeat left center/contain;flex:none}
+.cert-brand .logo-img{height:30px}
 .cert-brand{display:flex;align-items:center;gap:8px}
-@media (max-width:640px){.logo-img{height:22px}.lg-tag{font-size:9.5px;padding:2px 6px}}
+@media (max-width:640px){.logo-img{height:28px}}
 @media (max-width:480px){.nav .meter{display:none}.nav .pill{padding:8px 10px}.bar .wrap{gap:6px}}
-@media (max-width:360px){.lg-tag{display:none}}

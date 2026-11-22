@@ -50,7 +50,7 @@ export default async function LevelPage({ params }: { params: Promise<{ slug: st
           <div className="section-head"><div><div className="eyebrow">Sertifikat</div><h2 style={{ marginTop: 8 }}>{st.complete ? `Kamu lulus ${L.school}` : `Sertifikat ${L.school}`}</h2></div></div>
           <div className={"cert" + (st.complete ? "" : " locked")} style={vars}>
             <div className="cert-in">
-              <div className="cert-top"><span className="cert-brand"><span className="logo-img" role="img" aria-label="DETA Expert.com" /><span className="lg-tag">Academy</span></span><span className="mono">No. {st.complete && s.user ? certNo(L, s.user.id) : "DA-XXX-XXXXXX"}</span></div>
+              <div className="cert-top"><span className="cert-brand"><span className="logo-img" role="img" aria-label="Deta Academy, Level Up Your Trading" /></span><span className="mono">No. {st.complete && s.user ? certNo(L, s.user.id) : "DA-XXX-XXXXXX"}</span></div>
               <div className="cert-badge"><Badge L={L} size={92} earned={st.complete} /></div>
               <p className="cert-k">Sertifikat Kelulusan</p>
               <h3 className="cert-name" id="certNameOut">{s.name || "Nama kamu"}</h3>
