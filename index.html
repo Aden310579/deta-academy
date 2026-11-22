@@ -116,8 +116,25 @@ h1,h2,h3{font-family:var(--f-display);line-height:1.12;text-wrap:balance;margin:
 .rules p{margin:0;font-size:14px;color:var(--muted)}
 @media (max-width:760px){.rules{grid-template-columns:1fr}}
 
-footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:13px}
-footer .wrap{display:flex;flex-direction:column;gap:8px}
+footer{padding-block:40px 48px;color:var(--muted);font-size:13px;text-align:center}
+footer .wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+footer .f-line{width:min(400px,80%);height:2px;border-radius:2px;margin-bottom:18px;background:linear-gradient(90deg,#5B7CFF,#B565D9,#E8B54A,#22B07F,#22A6C9)}
+footer .f-copy{font-size:15px;color:var(--fg);opacity:.85}
+footer .f-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;margin-top:6px}
+footer .f-links button{background:none;border:0;padding:0;font:inherit;font-size:15px;font-weight:600;color:#7F8CFF;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+[data-theme="light"] footer .f-links button{color:#4F5BD5}
+.info-dlg{width:min(760px,calc(100% - 32px));max-height:calc(100dvh - 48px);padding:0;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--fg);box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+.info-dlg::backdrop{background:rgba(5,9,16,.7);backdrop-filter:blur(3px)}
+.info-dlg .in{padding:24px 26px 28px;overflow:auto}
+.info-dlg h2{font-size:22px;margin:0 48px 14px 0}
+.info-dlg h3{font-size:17px;margin:18px 0 6px}
+.info-dlg p,.info-dlg li{margin:0;font-size:15px;line-height:1.6;color:var(--fg);opacity:.9}
+.info-dlg ul{margin:0;padding-left:20px}
+.info-dlg .x{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font-size:20px;line-height:1;cursor:pointer}
+.info-dlg .co{margin-top:22px;font-weight:700}
+.info-dlg .deha{display:inline-flex;gap:6px;align-items:baseline;margin-top:8px;font-size:17px}
+.info-dlg .deha b{letter-spacing:.12em}
+.info-dlg .deha span{color:#E0334E}
 
 /* module page */
 .crumb{font-size:13px;color:var(--muted);margin:28px 0 14px;display:flex;gap:8px;flex-wrap:wrap}
@@ -446,10 +463,19 @@ kbd{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;b
 
 <footer>
   <div class="wrap">
-    <div><b style="color:var(--fg)">Deta Academy</b> · Sekolah trading dari nol sampai bisa, bagian dari DETA Expert.com.</div>
-    <div>Materi ini untuk edukasi, bukan ajakan atau saran investasi. Trading forex, emas, dan kripto berisiko tinggi dan bisa menghabiskan modal. Gunakan uang yang siap hilang dan selalu latihan di akun demo dulu.</div>
+    <div class="f-line" aria-hidden="true"></div>
+    <div class="f-copy">Deta Expert Copyright © 2026</div>
+    <div>Semua materi bersifat edukasi dan bukan ajakan membeli atau menjual aset apa pun.</div>
+    <div>Trading berisiko tinggi dan bisa menyebabkan kehilangan modal. Hasil masa lalu tidak menjamin hasil di masa depan.</div>
+    <nav class="f-links" aria-label="Informasi">
+      <button type="button" data-info="tentang">Tentang kami</button>
+      <button type="button" data-info="risiko">Disclaimer risiko</button>
+      <button type="button" data-info="syarat">Syarat penggunaan</button>
+      <button type="button" data-info="privasi">Kebijakan privasi</button>
+    </nav>
   </div>
 </footer>
+<dialog class="info-dlg" id="infoDlg" aria-labelledby="infoTitle"><button class="x" type="button" aria-label="Tutup" data-close>×</button><div class="in" id="infoBody"></div></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1423,6 +1449,36 @@ mountSpotlight();
 mountReadBar(document.getElementById('readbar'));
 const PAL=mountPalette(ORDER.flatMap(id=>{const m=MODS[id];return m.lessons.map((l,i)=>({t:l.t,s:'Modul '+m.n+' · '+m.title,k:l.b.replace(/<[^>]+>/g,' ').slice(0,400),href:'#'+lid(id,i)})).concat([{t:'Kuis Modul '+m.n,s:m.title,href:'#'+id+'-kuis'}]);}).concat([{t:'Arena latihan: tebak arah',s:'Beranda',k:'latihan buy sell game',href:'#arena'}]).concat(LEVELS.map(L=>({t:L.school,s:L.n+' · '+L.name,k:'level kelas sertifikat lencana '+L.slug,href:'#'+L.slug}))),h=>{location.hash=h;});
 document.getElementById('searchBtn').onclick=()=>PAL.open();
+
+
+/* ---------- footer: Tentang kami, disclaimer, syarat, privasi ---------- */
+const INFO={
+tentang:`<h2 id="infoTitle">Tentang kami</h2>
+<h3>Siapa kami</h3><p>Deta Expert adalah platform edukasi trading berbahasa Indonesia yang membantu pemula memahami pasar saham, forex, emas, dan kripto langkah demi langkah. Deta Expert adalah bagian dari Deha Group.</p>
+<h3>Apa yang kami sediakan</h3><p>Materi dasar, indikator, dan strategi; kuis dan jurnal latihan; kalender serta berita pasar harian; dan contoh setup nyata yang dibedah sebagai bahan belajar.</p>
+<h3>Cara kami bekerja</h3><p>Data pasar dan berita diperbarui setiap jam menggunakan analisis teknikal dan indikator-indikator, lalu diawasi admin. Semua materi tersedia dalam Bahasa Indonesia, English, dan 中文.</p>
+<h3>Misi kami</h3><p>Membuat trader pemula lebih paham risiko dan lebih disiplin sebelum memakai uang sungguhan.</p>
+<p class="co">PT. Deta Expert Solution</p><div class="deha" aria-label="DEHA Group"><b>DEHA</b><span>Group</span></div>`,
+risiko:`<h2 id="infoTitle">Disclaimer risiko</h2>
+<p>Seluruh materi di Deta Academy dibuat untuk tujuan edukasi. Materi ini bukan saran investasi, bukan rekomendasi, dan bukan ajakan untuk membeli atau menjual aset apa pun.</p>
+<h3>Risiko trading</h3><ul><li>Trading forex, emas, saham, indeks, dan kripto berisiko tinggi dan bisa menyebabkan kehilangan sebagian atau seluruh modal.</li><li>Leverage memperbesar untung sekaligus rugi.</li><li>Hasil masa lalu, termasuk contoh setup dan hasil backtest, tidak menjamin hasil di masa depan.</li></ul>
+<h3>Tanggung jawab pribadi</h3><p>Setiap keputusan trading sepenuhnya tanggung jawab kamu. Gunakan hanya uang yang siap hilang, latihan di akun demo terlebih dahulu, dan pertimbangkan berkonsultasi dengan penasihat keuangan berizin sebelum memakai uang sungguhan.</p>`,
+syarat:`<h2 id="infoTitle">Syarat penggunaan</h2>
+<p>Dengan memakai Deta Academy, kamu menyetujui syarat berikut.</p>
+<h3>Penggunaan materi</h3><ul><li>Materi boleh dipakai untuk belajar pribadi.</li><li>Materi tidak boleh disalin, dijual ulang, atau disebarkan untuk kepentingan komersial tanpa izin tertulis dari PT. Deta Expert Solution.</li></ul>
+<h3>Akurasi informasi</h3><p>Kami berusaha menjaga materi tetap akurat dan terbaru, tetapi tidak menjamin seluruh isinya bebas dari kesalahan. Contoh harga dan chart di website ini adalah simulasi untuk latihan.</p>
+<h3>Sertifikat</h3><p>Sertifikat kelulusan menunjukkan bahwa kamu telah menyelesaikan materi dan kuis di Deta Academy. Sertifikat ini bukan lisensi atau izin profesi.</p>
+<h3>Perubahan</h3><p>Kami dapat memperbarui materi dan syarat ini sewaktu-waktu. Versi terbaru selalu tersedia di halaman ini.</p>`,
+privasi:`<h2 id="infoTitle">Kebijakan privasi</h2>
+<h3>Data yang disimpan</h3><p>Deta Academy tidak meminta pendaftaran akun. Progres belajar, nilai kuis, skor arena latihan, pilihan tema, dan nama yang kamu tulis di sertifikat hanya disimpan di browser perangkatmu (local storage).</p>
+<h3>Data yang tidak kami kumpulkan</h3><p>Data tersebut tidak dikirim ke server kami dan tidak kami bagikan kepada pihak lain.</p>
+<h3>Menghapus data</h3><p>Kamu bisa menghapus semua data ini kapan saja dengan menghapus data situs (cookies dan site data) untuk academy.detaexpert.com di pengaturan browser.</p>
+<h3>Kontak</h3><p>PT. Deta Expert Solution, bagian dari Deha Group.</p>`
+};
+(function(){const d=document.getElementById('infoDlg'),b=document.getElementById('infoBody');
+document.querySelectorAll('[data-info]').forEach(el=>el.addEventListener('click',()=>{b.innerHTML=INFO[el.dataset.info];b.scrollTop=0;d.showModal();}));
+d.querySelector('[data-close]').onclick=()=>d.close();
+d.addEventListener('click',e=>{if(e.target===d)d.close();});})();
 
 /* ---------- router ---------- */
 function route(){
