@@ -105,7 +105,11 @@ kbd{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;b
 @media (max-width:880px){.nav .kbd-btn kbd{display:none}}
 @media (max-width:640px){.bar .wrap{gap:8px}.nav{gap:2px}.nav a,.nav button{padding:8px}.nav .meter{width:36px}.logo{font-size:17px}}
 
-/* ===== kelas: Pemula / Menengah / Mahir ===== */
+/* ===== level terkunci ===== */
+.mod.locked{opacity:.6}
+.mod.locked:hover{transform:none}
+
+/* ===== level: Pemula / Menengah / Mahir ===== */
 .badge{display:block;flex:none;filter:drop-shadow(0 8px 18px rgba(0,0,0,.25))}
 .badge.off{filter:grayscale(1);opacity:.45}
 .tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:8px}

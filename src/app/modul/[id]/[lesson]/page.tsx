@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MODS, ORDER, lessonKey } from "@/content/curriculum";
-import { getStudent, canAccess } from "@/lib/student";
+import { MODS, ORDER, lessonKey, levelOf } from "@/content/curriculum";
+import { getStudent, canAccess, modUnlocked } from "@/lib/student";
+import LevelLock from "@/components/LevelLock";
 import Rail from "@/components/Rail";
 import Paywall from "@/components/Paywall";
 import MarkDone from "@/components/MarkDone";
@@ -12,7 +13,7 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
   const { id, lesson } = await params;
   const m = MODS[id]; const i = parseInt(lesson, 10) - 1;
   if (!m || !m.lessons[i]) notFound();
-  const l = m.lessons[i], s = await getStudent(), open = canAccess(s, id);
+  const l = m.lessons[i], s = await getStudent(), unlocked = modUnlocked(s, id), open = unlocked && canAccess(s, id);
   const prev = i > 0 ? `/modul/${id}/${i}` : m.n > 1 ? `/modul/${ORDER[m.n - 2]}/kuis` : null;
   const next = i < m.lessons.length - 1 ? `/modul/${id}/${i + 2}` : `/modul/${id}/kuis`;
   return (
@@ -34,7 +35,7 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
                 <MarkDone modId={id} index={i} done={!!s.done[lessonKey(id, i)]} loggedIn={!!s.user} next={next} nextLabel={i < m.lessons.length - 1 ? "Lanjut" : "Ke kuis"} />
               </div>
             </>
-          ) : <Paywall loggedIn={!!s.user} />}
+          ) : !unlocked ? <LevelLock L={levelOf(id)} s={s} /> : <Paywall loggedIn={!!s.user} />}
         </article>
       </div>
     </div>
