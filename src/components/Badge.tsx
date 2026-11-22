@@ -18,8 +18,7 @@ export default function Badge({ L, size, earned, className = "" }: { L: Level; s
       <defs><linearGradient id={`bg${i}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={L.c1} /><stop offset="1" stopColor={L.c2} /></linearGradient></defs>
       <path d="M50 3 L91 26.5 L91 73.5 L50 97 L9 73.5 L9 26.5Z" fill={`url(#bg${i})`} />
       <path d="M50 11 L84 30.5 L84 69.5 L50 89 L16 69.5 L16 30.5Z" fill="none" stroke="#fff" strokeOpacity=".35" strokeWidth="1.5" />
-      {bars}
-      <text x="50" y="80" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="8.5" fontWeight="600" fill="#fff" letterSpacing="1.2">{L.slug.toUpperCase()}</text>
+      <g transform="translate(0 6)">{bars}</g>
     </svg>
   );
 }
