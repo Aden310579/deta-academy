@@ -64,7 +64,7 @@ export function nextStep(s: Student) {
 export const priceIdr = () => parseInt(process.env.PRICE_IDR || "299000", 10);
 export const rupiah = (n: number) => "Rp" + n.toLocaleString("id-ID");
 
-import { LEVELS } from "@/content/curriculum";
+import { LEVELS, levelOf } from "@/content/curriculum";
 import type { Level } from "@/content/curriculum";
 export const levelBySlug = (slug: string) => LEVELS.find((l) => l.slug === slug);
 export function levelStat(s: Student, L: Level) {
@@ -74,6 +74,10 @@ export function levelStat(s: Student, L: Level) {
   const gradAt = complete ? L.mods.map((id) => s.quizAt[id]).filter(Boolean).sort().pop() ?? null : null;
   return { done, total: L.mods.length, pct: Math.round(st.reduce((a, x) => a + x.pct, 0) / st.length), complete, remaining: L.mods.length - done, gradAt };
 }
+/** Level pertama selalu terbuka; level berikutnya terbuka setelah level sebelumnya lulus. */
+export const levelPrev = (L: Level) => LEVELS[LEVELS.indexOf(L) - 1] ?? null;
+export function levelOpen(s: Student, L: Level) { const p = levelPrev(L); return !p || levelStat(s, p).complete; }
+export const modUnlocked = (s: Student, modId: string) => levelOpen(s, levelOf(modId));
 export function levelNext(s: Student, L: Level) {
   for (const id of L.mods) {
     const m = MODS[id];

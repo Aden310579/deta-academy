@@ -1,7 +1,7 @@
 import type { Level } from "@/content/curriculum";
 import { LEVELS } from "@/content/curriculum";
 
-/** Lencana segi enam per kelas; jumlah candle = nomor level. */
+/** Lencana segi enam per level; jumlah candle = nomor level. */
 export default function Badge({ L, size, earned, className = "" }: { L: Level; size: number; earned: boolean; className?: string }) {
   const i = LEVELS.indexOf(L) + 1;
   const bars = Array.from({ length: i }, (_, k) => {

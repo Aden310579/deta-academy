@@ -3,14 +3,14 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { QUIZ_N, parseQuizCookie } from "@/lib/quiz";
 import { createClient } from "@/lib/supabase/server";
-import { getStudent, canAccess } from "@/lib/student";
+import { getStudent, canAccess, modUnlocked } from "@/lib/student";
 import { MODS } from "@/content/curriculum";
 
 export async function setLessonDone(modId: string, index: number, done: boolean) {
   const s = await getStudent();
   if (!s.user) return { error: "login" };
   const m = MODS[modId];
-  if (!m || !m.lessons[index] || !canAccess(s, modId)) return { error: "akses" };
+  if (!m || !m.lessons[index] || !canAccess(s, modId) || !modUnlocked(s, modId)) return { error: "akses" };
   const sb = await createClient();
   const key = `${modId}-l${index + 1}`;
   if (done) await sb.from("progress").upsert({ user_id: s.user.id, lesson_key: key });
@@ -30,7 +30,7 @@ export async function submitQuiz(modId: string, picks: { qi: number; ans: number
   const ok = picks.map((p) => p.ans === m.quiz[p.qi].a);
   const score = ok.filter(Boolean).length, pass = score >= 2;
   const s = await getStudent();
-  if (s.user && canAccess(s, modId)) {
+  if (s.user && canAccess(s, modId) && modUnlocked(s, modId)) {
     const sb = await createClient();
     const best = Math.max(score, s.quiz[modId] ?? 0);
     await sb.from("quiz_scores").upsert({ user_id: s.user.id, module_id: modId, best_score: best, updated_at: new Date().toISOString() });

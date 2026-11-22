@@ -8,7 +8,7 @@ const ITEMS = ORDER.flatMap((id) => {
   const m = MODS[id];
   return m.lessons.map((l, i) => ({ t: l.t, s: `Modul ${m.n} · ${m.title}`, k: l.b.replace(/<[^>]+>/g, " ").slice(0, 400), href: `/modul/${id}/${i + 1}` }))
     .concat([{ t: `Kuis Modul ${m.n}`, s: m.title, k: "", href: `/modul/${id}/kuis` }]);
-}).concat(LEVELS.map((L) => ({ t: L.school, s: `${L.n} · ${L.name}`, k: "kelas level sertifikat lencana " + L.slug, href: `/kelas/${L.slug}` })))
+}).concat(LEVELS.map((L) => ({ t: L.school, s: `${L.n} · ${L.name}`, k: "level kelas sertifikat lencana " + L.slug, href: `/level/${L.slug}` })))
   .concat([{ t: "Arena latihan: tebak arah", s: "Beranda", k: "latihan buy sell game", href: "/#arena" }]);
 
 export default async function Header() {

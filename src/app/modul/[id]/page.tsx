@@ -1,21 +1,22 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MODS, levelOf, lessonKey } from "@/content/curriculum";
-import { getStudent, modStat, canAccess } from "@/lib/student";
+import { getStudent, modStat, canAccess, modUnlocked } from "@/lib/student";
+import LevelLock from "@/components/LevelLock";
 import Paywall from "@/components/Paywall";
 
 export default async function ModulePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const m = MODS[id]; if (!m) notFound();
-  const s = await getStudent(), st = modStat(s, id), L = levelOf(id), open = canAccess(s, id);
+  const s = await getStudent(), st = modStat(s, id), L = levelOf(id), unlocked = modUnlocked(s, id), open = unlocked && canAccess(s, id);
   return (
     <div className="wrap">
-      <div className="crumb"><Link href="/">Beranda</Link><span>/</span><Link href={`/kelas/${L.slug}`}>{L.school}</Link><span>/</span><span>Modul {m.n}</span></div>
+      <div className="crumb"><Link href="/">Beranda</Link><span>/</span><Link href={`/level/${L.slug}`}>{L.school}</Link><span>/</span><span>Modul {m.n}</span></div>
       <div className="mhead">
         <div><div className="eyebrow">Modul {String(m.n).padStart(2, "0")} · {m.lessons.reduce((a, l) => a + l.min, 0)} menit · {m.free ? "Gratis" : "Premium"}</div><h1 style={{ marginTop: 10 }}>{m.title}</h1><p>{m.desc}</p></div>
         <div className="ring" style={{ ["--p" as any]: st.pct }}><span>{st.pct}%</span></div>
       </div>
-      {!open && <Paywall loggedIn={!!s.user} />}
+      {!unlocked ? <LevelLock L={L} s={s} /> : !open && <Paywall loggedIn={!!s.user} />}
       <ol className="llist">
         {m.lessons.map((l, i) => {
           const ok = s.done[lessonKey(id, i)];
